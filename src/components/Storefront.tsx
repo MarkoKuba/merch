@@ -1,7 +1,6 @@
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
 import { ProductCard } from "./ProductCard";
 import { ProductModal } from "./ProductModal";
 import { NewsletterSignup } from "./NewsletterSignup";
@@ -17,7 +16,7 @@ export function Storefront({ sessionId }: StorefrontProps) {
 
   useEffect(() => {
     // Initialize sample products on first load
-    initializeProducts();
+    void initializeProducts();
   }, [initializeProducts]);
 
   if (!products) {
@@ -31,11 +30,11 @@ export function Storefront({ sessionId }: StorefrontProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Hero Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+      <div className="text-center mb-12 bg-base-300 py-16 rounded-2xl shadow-xl">
+        <h1 className="text-4xl font-bold text-base-content mb-4">
           Premium T-Shirts Collection
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-xl text-base-content/80 max-w-2xl mx-auto px-4">
           Discover our carefully curated selection of high-quality t-shirts. 
           Comfortable, stylish, and perfect for every occasion.
         </p>

@@ -26,63 +26,53 @@ export default function App() {
   const cartItemCount = cartItems?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <header className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-8">
-              <h1 className="text-2xl font-bold text-blue-600">merchStore</h1>
-              <nav className="hidden md:flex space-x-6">
-                <button
-                  onClick={() => setCurrentView("home")}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    currentView === "home"
-                      ? "bg-blue-100 text-blue-700"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                  }`}
-                >
-                  <Home size={16} />
-                  <span>Home</span>
-                </button>
-                <button
-                  onClick={() => setCurrentView("cart")}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors relative ${
-                    currentView === "cart"
-                      ? "bg-blue-100 text-blue-700"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                  }`}
-                >
-                  <ShoppingCart size={16} />
-                  <span>Cart</span>
-                  {cartItemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      {cartItemCount}
-                    </span>
-                  )}
-                </button>
-                {(isAdmin || !loggedInUser) && (
-                  <button
-                    onClick={() => setCurrentView("admin")}
-                    className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      currentView === "admin"
-                        ? "bg-blue-100 text-blue-700"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                    }`}
-                  >
-                    <User size={16} />
-                    <span>Admin</span>
-                  </button>
+    <div className="min-h-screen flex flex-col">
+      <header className="sticky top-0 z-10 bg-base-100/95 backdrop-blur supports-[backdrop-filter]:bg-base-100/60 border-b border-base-300">
+        <div className="navbar max-w-7xl mx-auto px-4">
+          <div className="navbar-start">
+            <h1 className="text-2xl font-bold text-primary">merchStore</h1>
+          </div>
+          <div className="navbar-center hidden md:flex">
+            <div className="tabs tabs-boxed bg-base-200">
+              <button
+                onClick={() => setCurrentView("home")}
+                className={`tab ${currentView === "home" ? "tab-active" : ""}`}
+              >
+                <Home size={16} className="mr-2" />
+                Home
+              </button>
+              <button
+                onClick={() => setCurrentView("cart")}
+                className={`tab ${currentView === "cart" ? "tab-active" : ""} indicator`}
+              >
+                <ShoppingCart size={16} className="mr-2" />
+                Cart
+                {cartItemCount > 0 && (
+                  <span className="indicator-item badge badge-secondary badge-sm">
+                    {cartItemCount}
+                  </span>
                 )}
-              </nav>
+              </button>
+              {(isAdmin || !loggedInUser) && (
+                <button
+                  onClick={() => setCurrentView("admin")}
+                  className={`tab ${currentView === "admin" ? "tab-active" : ""}`}
+                >
+                  <User size={16} className="mr-2" />
+                  Admin
+                </button>
+              )}
             </div>
-            <div className="flex items-center space-x-4">
-              <Authenticated>
-                <span className="text-sm text-gray-600">
+          </div>
+          <div className="navbar-end">
+            <Authenticated>
+              <div className="flex items-center gap-4">
+                <span className="text-sm opacity-75">
                   {loggedInUser?.email}
                 </span>
                 <SignOutButton />
-              </Authenticated>
-            </div>
+              </div>
+            </Authenticated>
           </div>
         </div>
       </header>
@@ -97,9 +87,11 @@ export default function App() {
         )}
         {currentView === "admin" && (
           <Unauthenticated>
-            <div className="max-w-md mx-auto mt-16 p-6 bg-white rounded-lg shadow-md">
-              <h2 className="text-2xl font-bold text-center mb-6">Admin Login</h2>
-              <SignInForm />
+            <div className="card max-w-md mx-auto mt-16 bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h2 className="card-title justify-center">Admin Login</h2>
+                <SignInForm />
+              </div>
             </div>
           </Unauthenticated>
         )}

@@ -6,18 +6,14 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        primary: "#2563eb",
-        "primary-hover": "#1d4ed8",
-        secondary: "#64748b",
-      },
       spacing: {
         section: "2rem",
       },
-      borderRadius: {
-        container: "0.75rem",
-      },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["dark"],
+    darkTheme: "dark",
+  }
 }

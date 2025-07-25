@@ -55,7 +55,7 @@ export function AdminDashboard() {
       try {
         await removeProduct({ id: productId });
         toast.success("Product deleted successfully");
-      } catch (error) {
+      } catch {
         toast.error("Failed to delete product");
       }
     }
@@ -65,7 +65,7 @@ export function AdminDashboard() {
     try {
       await updateOrderStatus({ orderId, status });
       toast.success("Order status updated");
-    } catch (error) {
+    } catch {
       toast.error("Failed to update order status");
     }
   };
@@ -73,7 +73,7 @@ export function AdminDashboard() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Admin Dashboard</h1>
+        <h1 className="page-title mb-4">Admin Dashboard</h1>
         
         {/* Tab Navigation */}
         <div className="border-b border-gray-200">
@@ -105,7 +105,7 @@ export function AdminDashboard() {
       {activeTab === "products" && (
         <div>
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-semibold">Products</h2>
+            <h2 className="section-title">Products</h2>
             <button
               onClick={() => setShowProductForm(true)}
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2"
@@ -179,7 +179,7 @@ export function AdminDashboard() {
                         <Edit size={16} />
                       </button>
                       <button
-                        onClick={() => handleDeleteProduct(product._id)}
+                        onClick={() => { void handleDeleteProduct(product._id); }}
                         className="text-red-600 hover:text-red-900"
                       >
                         <Trash2 size={16} />
@@ -196,7 +196,7 @@ export function AdminDashboard() {
       {/* Orders Tab */}
       {activeTab === "orders" && (
         <div>
-          <h2 className="text-2xl font-semibold mb-6">Orders</h2>
+          <h2 className="section-title mb-6">Orders</h2>
           
           <div className="bg-white rounded-lg shadow overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
@@ -239,7 +239,7 @@ export function AdminDashboard() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <select
                         value={order.status}
-                        onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
+                        onChange={(e) => { void handleStatusUpdate(order._id, e.target.value); }}
                         className="text-sm border rounded px-2 py-1"
                       >
                         <option value="pending">Pending</option>
@@ -262,7 +262,7 @@ export function AdminDashboard() {
       {/* Analytics Tab */}
       {activeTab === "analytics" && (
         <div>
-          <h2 className="text-2xl font-semibold mb-6">Analytics</h2>
+          <h2 className="section-title mb-6">Analytics</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white rounded-lg shadow p-6">
@@ -299,7 +299,7 @@ export function AdminDashboard() {
       {/* Newsletter Tab */}
       {activeTab === "newsletter" && (
         <div>
-          <h2 className="text-2xl font-semibold mb-6">Newsletter Subscribers</h2>
+          <h2 className="section-title mb-6">Newsletter Subscribers</h2>
           
           <div className="bg-white rounded-lg shadow overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
