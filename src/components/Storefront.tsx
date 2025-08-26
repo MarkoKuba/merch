@@ -1,23 +1,29 @@
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import { useState, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import { ProductCard } from "./ProductCard";
-import { ProductModal } from "./ProductModal";
 import { NewsletterSignup } from "./NewsletterSignup";
+import { useSearchParams } from "react-router-dom";
 
-interface StorefrontProps {
-  sessionId: string;
-}
-
-export function Storefront({ sessionId }: StorefrontProps) {
+export function Storefront() {
   const products = useQuery(api.products.list);
   const initializeProducts = useMutation(api.products.initializeSampleProducts);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    // Initialize sample products on first load
     void initializeProducts();
   }, [initializeProducts]);
+
+  const query = (searchParams.get("q") || "").toLowerCase();
+  const filtered = useMemo(() => {
+    const base = products ?? [];
+    if (!query) return base;
+    return base.filter((p) => {
+      const haystack = [p.name, p.category, p.description]
+        .map((v) => String(v ?? "").toLowerCase());
+      return haystack.some((s) => s.includes(query));
+    });
+  }, [products, query]);
 
   if (!products) {
     return (
@@ -29,39 +35,30 @@ export function Storefront({ sessionId }: StorefrontProps) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Hero Section */}
       <div className="text-center mb-12 bg-base-300 py-16 rounded-2xl shadow-xl">
-        <h1 className="text-4xl font-bold text-base-content mb-4">
-          Premium T-Shirts Collection
-        </h1>
+        <h1 className="text-4xl font-bold text-base-content mb-4">Premium T-Shirts Collection</h1>
         <p className="text-xl text-base-content/80 max-w-2xl mx-auto px-4">
           Discover our carefully curated selection of high-quality t-shirts. 
           Comfortable, stylish, and perfect for every occasion.
         </p>
       </div>
 
-      {/* Products Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
-        {products.map((product) => (
+        {filtered.map((p) => (
           <ProductCard
-            key={product._id}
-            product={product}
-            onViewDetails={() => setSelectedProduct(product)}
+            key={String(p._id)}
+            product={{
+              _id: String(p._id),
+              name: p.name,
+              price: p.price,
+              imageUrl: p.imageUrl,
+              category: p.category,
+            }}
           />
         ))}
       </div>
 
-      {/* Newsletter Signup */}
       <NewsletterSignup />
-
-      {/* Product Modal */}
-      {selectedProduct && (
-        <ProductModal
-          product={selectedProduct}
-          sessionId={sessionId}
-          onClose={() => setSelectedProduct(null)}
-        />
-      )}
     </div>
   );
 }

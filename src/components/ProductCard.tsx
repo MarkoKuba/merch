@@ -1,3 +1,10 @@
+import { Link } from "react-router-dom";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { getOrCreateSessionId } from "../lib/utils";
+import { toast } from "sonner";
+import { Maximize2 } from "lucide-react";
+
 interface ProductCardProps {
   product: {
     _id: string;
@@ -6,10 +13,20 @@ interface ProductCardProps {
     imageUrl: string;
     category: string;
   };
-  onViewDetails: () => void;
 }
 
-export function ProductCard({ product, onViewDetails }: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
+  const addToCart = useMutation(api.cart.addToCart);
+  const sessionId = getOrCreateSessionId();
+
+  const handleAddToCart = async () => {
+    try {
+      await addToCart({ productId: product._id as any, quantity: 1, sessionId });
+      toast.success(`Added ${product.name} to cart`);
+    } catch {
+      toast.error("Failed to add to cart");
+    }
+  };
   return (
     <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
       <figure>
@@ -29,13 +46,22 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
         <p className="text-2xl font-bold text-primary">
           ${product.price.toFixed(2)}
         </p>
-        <div className="card-actions justify-end">
+        <div className="card-actions justify-between items-center">
           <button
-            onClick={onViewDetails}
-            className="btn btn-primary btn-block"
+            onClick={() => { void handleAddToCart(); }}
+            className="btn btn-primary flex-1"
           >
-            View Details
+            Add to Cart
           </button>
+          <Link
+            to={`/product/${product._id}`}
+            className="btn btn-ghost btn-circle"
+            aria-label="View Details"
+            title="View Details"
+          >
+            <Maximize2 size={16} />
+          </Link>
+
         </div>
       </div>
     </div>
