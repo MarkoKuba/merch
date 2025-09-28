@@ -78,17 +78,17 @@ export function Cart({ sessionId }: CartProps) {
                   <p className="text-base-content/70">${item.product?.price.toFixed(2)} each</p>
                 </div>
                 
-                <div className="join border rounded-lg">
+                <div className="join grid grid-cols-3">
                   <button
                     onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
-                    className="btn btn-ghost join-item"
+                    className="join-item btn btn-outline"
                   >
                     <Minus size={16} />
                   </button>
-                  <span className="join-item px-4 py-2 border-x">{item.quantity}</span>
+                  <span className="join-item btn btn-outline">{item.quantity}</span>
                   <button
                     onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
-                    className="btn btn-ghost join-item"
+                    className="join-item btn btn-outline"
                   >
                     <Plus size={16} />
                   </button>

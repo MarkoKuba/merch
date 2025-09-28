@@ -39,7 +39,7 @@ export function ProductForm({ product, onClose }: ProductFormProps) {
         toast.success("Product created successfully");
       }
       onClose();
-    } catch (error) {
+    } catch {
       toast.error("Failed to save product");
     } finally {
       setIsSubmitting(false);
@@ -54,14 +54,14 @@ export function ProductForm({ product, onClose }: ProductFormProps) {
             {product ? "Edit Product" : "Add Product"}
           </h2>
           <button
-            onClick={onClose}
+            onClick={() => onClose()}
             className="text-gray-400 hover:text-gray-600"
           >
             <X size={24} />
           </button>
         </div>
         
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={(e) => { void handleSubmit(e); }} className="p-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Product Name *
@@ -152,7 +152,7 @@ export function ProductForm({ product, onClose }: ProductFormProps) {
           <div className="flex space-x-4 pt-4">
             <button
               type="button"
-              onClick={onClose}
+              onClick={() => onClose()}
               className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Cancel

@@ -56,12 +56,12 @@ export function ProductPage() {
 
           <div className="flex items-center gap-4 mb-6">
             <span className="text-sm font-medium">Quantity:</span>
-            <div className="join border rounded-lg">
-              <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="btn btn-ghost join-item">
+            <div className="join">
+              <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="join-item btn">
                 <Minus size={16} />
               </button>
-              <span className="join-item px-4 py-2 border-x">{quantity}</span>
-              <button onClick={() => setQuantity(quantity + 1)} className="btn btn-ghost join-item">
+              <span className="join-item btn">{quantity}</span>
+              <button onClick={() => setQuantity(quantity + 1)} className="join-item btn">
                 <Plus size={16} />
               </button>
             </div>

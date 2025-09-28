@@ -3,7 +3,7 @@ import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { getOrCreateSessionId } from "../lib/utils";
 import { toast } from "sonner";
-import { Maximize2 } from "lucide-react";
+//import { Maximize2 } from "lucide-react";
 
 interface ProductCardProps {
   product: {
@@ -30,37 +30,44 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
       <figure>
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="h-64 object-cover w-full"
-        />
+        <Link to={`/product/${product._id}`}>
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="h-64 object-cover w-full"
+          />
+        </Link>
       </figure>
       <div className="card-body">
-        <div className="flex justify-between items-start">
-          <h3 className="card-title">{product.name}</h3>
-          <span className="badge badge-secondary">
-            {product.category}
-          </span>
-        </div>
-        <p className="text-2xl font-bold text-primary">
-          ${product.price.toFixed(2)}
-        </p>
-        <div className="card-actions justify-between items-center">
+        <Link to={`/product/${product._id}`}>
+          <div className="flex justify-between items-start">
+            <h3 className="card-title">
+              {product.name}
+              <span className="badge badge-secondary">
+                {product.category}
+              </span>
+            </h3>
+
+          </div>
+          <p className="text-2xl font-bold text-primary">
+            ${product.price.toFixed(2)}
+          </p>
+        </Link>
+        <div className="card-actions justify-end">
           <button
             onClick={() => { void handleAddToCart(); }}
-            className="btn btn-primary flex-1"
+            className="btn btn-primary"
           >
             Add to Cart
           </button>
-          <Link
+          {/* <Link
             to={`/product/${product._id}`}
             className="btn btn-ghost btn-circle"
             aria-label="View Details"
             title="View Details"
           >
             <Maximize2 size={16} />
-          </Link>
+          </Link> */}
 
         </div>
       </div>
